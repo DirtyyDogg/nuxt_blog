@@ -8,14 +8,17 @@ const auth = async (req, res, next) => {
   const raw = String(req.headers.authorization)
     .split(" ")
     .pop();
+  resMessage = new ResMessage();
+  resMessage.success = false;
+  resMessage.reason = "tooken校验出错";
   try {
-    const { id } = jwt.verify(raw, SECRET);
+    const { id } = jwt.verify(raw, SECRET, (err, decode) =>{
+      resMessage.other = err;
+      res.send(resMessage);
+    });
     req.user = await User.findById(id);
     next();
   } catch (error) {
-    resMessage = new ResMessage();
-    resMessage.success = false;
-    resMessage.reason = "tooken校验出错";
     resMessage.other = error;
     res.send(resMessage);
   }

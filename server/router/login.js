@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       getMessageAndSend(false, "密码不正确", {}, res);
     } else {
-      const token_data = jwt.sign({ id: String(user._id) }, SECRET); //一般第二个参数不应该放在代码里面,是类似密码一样的隐私数据
+      const token_data = jwt.sign({ id: String(user._id) }, SECRET,{expiresIn: 60*60*24}); //一般第二个参数不应该放在代码里面,是类似密码一样的隐私数据
 
       getMessageAndSend(true, "", { token: token_data, user: user }, res);
     }
