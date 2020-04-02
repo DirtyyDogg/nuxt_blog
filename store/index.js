@@ -5,7 +5,7 @@ export const state = () => ({
 export const actions = {
     async nuxtServerInit ({ commit }, { app,req }) {
         let str = String(req.headers.cookie)
-        let reg = /token=(\S+)/;
+        let reg = /\s+token=(\S+)/;
         let match1 = str.match(reg)
         let reg2 = /username=(\S+);/;
         let match2 = str.match(reg2)
